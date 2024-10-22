@@ -1,0 +1,11 @@
+
+CREATE PROCEDURE AddBLOBWithoutCreatingParser(IN ref_OutputRoot REFERENCE)
+BEGIN
+	SET ref_OutputRoot.BLOB.BLOB = X'01020304';
+END;
+
+CREATE PROCEDURE AddBLOBCreatingParserFirst(IN ref_OutputRoot REFERENCE)
+BEGIN
+	CREATE LASTCHILD OF ref_OutputRoot DOMAIN('BLOB') NAME('BLOB');
+	SET ref_OutputRoot.BLOB.BLOB = X'01020304';
+END;

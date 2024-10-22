@@ -1,0 +1,29 @@
+
+
+CREATE COMPUTE MODULE TimerFlow_CreateRootParserTree
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputRoot.Properties = InputProperties;
+		DECLARE ref_OutputRoot REFERENCE TO OutputRoot;
+		
+		/* This creates trees owned by the root parser, which will 
+		 * not produce any bitstream output and will look like this:
+		 *
+         * (0x01000000:Name):BLOB       = (
+         *   (0x03000000:NameValue):BLOB = X'01020304' (BLOB)
+         * )
+         */
+		CALL AddBLOBWithoutCreatingParser(ref_OutputRoot);
+		 
+		
+		/* This creates trees owned by the BLOB parser, which will 
+		 * not produce any bitstream output and will look like this:
+		 *
+         * (0x01000000:Name):BLOB       = ( ['none' : 0x28f8c12c340]
+         *   (0x03000000:NameValue):BLOB = X'01020304' (BLOB)
+         * )
+         */
+         --CALL AddBLOBCreatingParserFirst(ref_OutputRoot);
+		RETURN TRUE;
+	END;
+END MODULE;

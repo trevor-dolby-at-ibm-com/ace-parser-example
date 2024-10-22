@@ -1,0 +1,18 @@
+
+
+CREATE COMPUTE MODULE TimerFlow_CreateNormalTree
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputRoot.Properties = InputProperties;
+
+		/* This creates trees owned by the BLOB parser, which will 
+		 * not produce any bitstream output and will look like this:
+		 *
+         * (0x01000000:Name):BLOB       = ( ['none' : 0x28f8c12c680]
+         *   (0x03000000:NameValue):BLOB = X'05060708' (BLOB)
+         * )
+         */		
+		SET OutputRoot.BLOB.BLOB = X'05060708';
+		RETURN TRUE;
+	END;
+END MODULE;
